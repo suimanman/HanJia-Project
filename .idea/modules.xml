@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="ProjectModuleManager">
+    <modules>
+      <module fileurl="file://$PROJECT_DIR$/hanjia-project.iml" filepath="$PROJECT_DIR$/hanjia-project.iml" />
+      <module fileurl="file://$PROJECT_DIR$/hanjia-project-frontend/hanjia-project-frontend.iml" filepath="$PROJECT_DIR$/hanjia-project-frontend/hanjia-project-frontend.iml" />
+    </modules>
+  </component>
+</project>
