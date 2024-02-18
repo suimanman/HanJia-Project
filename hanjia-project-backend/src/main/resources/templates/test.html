@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html lang="">
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width,initial-scale=1.0">
+    <link rel="icon" href="<%= BASE_URL %>favicon.ico">
+    <title><%= htmlWebpackPlugin.options.title %></title>
+    <script src="https://unpkg.com/axios/dist/axios.min.js"></script>
+</head>
+<body>
+<div>
+    <div>
+        <input id="username" type="text" placeholder="用户名">
+    </div>
+    <div>
+        <input id="password" type="text" placeholder="密码">
+    </div>
+    <div>
+        <input id="email" type="text" placeholder="电子邮件">
+        <a href="javascript:getCode()">
+            <button>获取验证码</button>
+        </a>
+    </div>
+    <div>
+        <input id="code" type="text" placeholder="验证码">
+    </div>
+    <div>
+        <a href="javascript:register()">
+            <button>注册</button>
+        </a>
+    </div>
+
+
+
+
+</div>
+</body>
+</html>
+<script>
+    function getCode(){
+        axios.post('/code',{
+            email:document.getElementById("email").value
+        },{
+            headers: {
+                'Content-Type': 'application/x-www-form-urlencoded'
+            }
+        }).then(({data})=>{
+            alert(data)
+        })
+    }
+    function register(){
+        axios.post('/register',{
+            username:document.getElementById("username").value,
+            password:document.getElementById("password").value,
+            email:document.getElementById("email").value,
+            code:document.getElementById("code").value
+        },{
+            headers: {
+                'Content-Type': 'application/x-www-form-urlencoded'
+            }
+        }).then(({data})=>{
+            alert(data)
+        })
+    }
+</script>
