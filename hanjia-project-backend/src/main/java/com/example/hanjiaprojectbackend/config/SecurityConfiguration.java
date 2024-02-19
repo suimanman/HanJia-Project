@@ -1,8 +1,10 @@
 package com.example.hanjiaprojectbackend.config;
 
 import com.example.hanjiaprojectbackend.entity.RestBean;
+import com.example.hanjiaprojectbackend.entity.dto.Account;
 import com.example.hanjiaprojectbackend.entity.vo.response.AuthorizeVO;
 import com.example.hanjiaprojectbackend.filter.JwtAuthorizeFilter;
+import com.example.hanjiaprojectbackend.service.AccountService;
 import com.example.hanjiaprojectbackend.utils.JwtUtils;
 import jakarta.annotation.Resource;
 import jakarta.servlet.ServletException;
@@ -32,6 +34,8 @@ public class SecurityConfiguration {
     JwtUtils utils;
     @Resource
     JwtAuthorizeFilter jwtAuthorizeFilter;
+    @Resource
+    AccountService accountService;
     @Bean
     public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
         return http
@@ -74,12 +78,13 @@ public class SecurityConfiguration {
                                         Authentication authentication) throws IOException, ServletException {
         response.setContentType("application/json;charset=utf-8");//配置编码格式，不然中文返回值会乱码
         User user = (User)authentication.getPrincipal();//直接读取用户信息
-        String token=utils.createJwt(user,1,"小米");//获取jwt的token
+        Account account=accountService.findAccountByNameOrEmail(user.getUsername());
+        String token=utils.createJwt(user,account.getId(), account.getUsername());//获取jwt的token
         AuthorizeVO vo=new AuthorizeVO();
         vo.setExpire(utils.expireTime());
-        vo.setRole("");
+        vo.setRole(account.getRole());
         vo.setToken(token);
-        vo.setUsername("小米");
+        vo.setUsername(account.getUsername());
         response.getWriter().write(RestBean.success(vo).asJsonString());
     }
     public void onAuthenticationFailure(HttpServletRequest request,
