@@ -10,6 +10,12 @@ public record RestBean <T>(int code, T data, String message){
     public static <T>RestBean<T> success(){
         return success(null);
     }
+    public static <T>RestBean<T> unauthorized(String message){
+        return failure(401,message);
+    }
+    public static <T>RestBean<T> forbidden(String message){
+        return failure(403,message);
+    }
     public static <T>RestBean<T> failure(int code,String message){//失败返回，自定义错误代码以及错误信息
         return new RestBean<>(code,null,message);
     }
